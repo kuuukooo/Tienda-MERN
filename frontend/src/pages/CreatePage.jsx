@@ -46,7 +46,7 @@ const CreatePage = () => {
           Crear un nuevo producto
         </Heading>
 
-        <Box w={'full'} bg={useColorModeValue('white', 'gray.800')} p={6} rounded={'lg'} shadow={'md'}>
+        <Box w={'full'} bg={useColorModeValue('white', 'gray.700')} p={6} rounded={'lg'} shadow={'md'}>
           <VStack spacing={4}>
             <Input
               placeholder='Nombre del Producto'
