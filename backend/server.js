@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
+import cookieParser from 'cookie-parser';
 import { connectDB } from './config/db.js';
 import productRoutes from './routes/product.route.js';
 import authRoutes from './routes/authRoutes.js'
@@ -15,6 +16,7 @@ const __dirname = path.resolve();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(cors());
 
 app.use('/api/products', productRoutes);
