@@ -1,17 +1,12 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-import useAuthStore from '../store/auth';
+import { Navigate, Outlet } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
-const ProtectedRoute = ({ children }) => {
-  const { user } = useAuthStore();
+const ProtectedRoute = () => {
+  const { user, loading } = useAuth();
 
-  // Si no hay usuario, redirige a login
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
+  if (loading) return <p>Cargando...</p>;
 
-  // Si hay usuario, muestra el contenido
-  return children;
+  return user ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
 export default ProtectedRoute;
