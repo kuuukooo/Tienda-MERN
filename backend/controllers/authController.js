@@ -1,9 +1,10 @@
   import User from '../models/User.js';
   import jwt from 'jsonwebtoken';
   import bcrypt from 'bcryptjs';
+  import { createTransporter } from '../config/oauthconfig.js';
 
   // Función para generar el token
-  const generateToken = (id) => {
+  const generateToken = (id) => {s
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
   };
 
@@ -112,7 +113,65 @@
     }
   };
   
-  // TODO: Implementar la función para recuperar la contraseña
-  export const forgotPassword = async (req, res) => {
-    // Implementar la lógica para recuperar la contraseña
-  };
+  export async function recoverPassword(req, res) {
+    const { email } = req.body;
+  
+    try {
+      
+      const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+      const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+      const transporter = await createTransporter();
+  
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: "Recuperación de Contraseña",
+        html: `<p>Haz clic <a href="${resetLink}">aquí</a> para recuperar tu contraseña.</p>`,
+      };
+  
+      await transporter.sendMail(mailOptions);
+      res.status(200).json({ msg: "Correo enviado correctamente" });
+    } catch (error) {
+      console.error("Error enviando el correo:", error);
+      res.status(500).json({ msg: "Error en el servidor", error });
+    }
+  }
+  
+export async function verifyToken(req, res) {
+  const { token } = req.query;
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).json({ msg: "Token válido", email: decoded.email });
+  } catch (error) {
+    res.status(400).json({ msg: "Token inválido o expirado" });
+  }
+}
+
+export async function resetPassword(req, res) {
+  const { token, newPassword } = req.body;
+
+  try {
+    // Verificar token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const email = decoded.email;
+
+    // Buscar usuario en la base de datos
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ msg: "Usuario no encontrado" });
+    }
+
+    // Hashear nueva contraseña
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    // Guardar nueva contraseña
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ msg: "Contraseña actualizada correctamente" });
+  } catch (error) {
+    res.status(400).json({ msg: "Token inválido o expirado" });
+  }
+}
