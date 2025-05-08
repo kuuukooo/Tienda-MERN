@@ -97,7 +97,7 @@ const ProductCard = ({ product }) => {
         </Text>
 
         <HStack spacing={2}>
-          <IconButton icon={<EditIcon />} onClick={onOpen} colorScheme='blue' />
+          <IconButton icon={<EditIcon />} onClick={onOpen} bgColor={'#70c055'} _hover={{ bg: "#5e9a4a" }} />
           <IconButton
             icon={<DeleteIcon />}
             onClick={() => handleDeleteProduct(product._id)}
@@ -138,7 +138,7 @@ const ProductCard = ({ product }) => {
 
           <ModalFooter>
             <Button
-              colorScheme='blue'
+              bgColor={'#70c055'} _hover={{ bg: "#5e9a4a" }}
               mr={3}
               onClick={() => handleUpdateProduct(product._id, updatedProduct)}
             >
