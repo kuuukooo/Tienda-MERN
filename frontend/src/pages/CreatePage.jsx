@@ -39,6 +39,7 @@ const CreatePage = () => {
       image: ''
     })
   }
+  const placeholderColor = useColorModeValue("gray.500", "gray.400");
   return (
     <Container maxW={'container.sm'}>
       <VStack spacing={8}>
@@ -46,13 +47,14 @@ const CreatePage = () => {
           Crear un nuevo producto
         </Heading>
 
-        <Box w={'full'} bg={useColorModeValue('white', 'gray.800')} p={6} rounded={'lg'} shadow={'md'}>
+        <Box w={'full'} bg={useColorModeValue('white', 'gray.700')} p={6} rounded={'lg'} shadow={'md'}>
           <VStack spacing={4}>
             <Input
               placeholder='Nombre del Producto'
               name='name'
               value={newProduct.name}
               onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+              _placeholder={{ color: placeholderColor }}
             />
             <Input
               placeholder='Precio'
@@ -60,12 +62,14 @@ const CreatePage = () => {
               type='number'
               value={newProduct.price}
               onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+              _placeholder={{ color: placeholderColor }}
             />
             <Input
               placeholder='URL de la imagen'
               name='image'
               value={newProduct.image}
               onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
+              _placeholder={{ color: placeholderColor }}
             />
 
             <Button bgColor={'#70c055'} _hover={{ bg: "#5e9a4a" }} onClick={handleAddProduct} w='full'>

@@ -28,6 +28,7 @@ const ProductCard = ({ product }) => {
 
   const textColor = useColorModeValue("gray.600", "gray.200");
   const bg = useColorModeValue("white", "gray.800");
+  const bgCard = useColorModeValue('gray.100', 'gray.700')
 
   const { deleteProduct, updateProduct } = useProductStore();
   const toast = useToast();
@@ -83,7 +84,7 @@ const ProductCard = ({ product }) => {
       overflow='hidden'
       transition='all 0.3s'
       _hover={{ transform: "translateY(-5px)", shadow: "xl" }}
-      bg={bg}
+      bg={bgCard}
     >
       <Image src={product.image} alt={product.name} h={48} w='full' objectFit='cover' />
 
@@ -97,7 +98,7 @@ const ProductCard = ({ product }) => {
         </Text>
 
         <HStack spacing={2}>
-          <IconButton icon={<EditIcon />} onClick={onOpen} bgColor={'#70c055'} _hover={{ bg: "#5e9a4a" }} />
+          <IconButton icon={<EditIcon />} onClick={onOpen} bgColor={'#70c055'} _hover={{ bg: '#5e9a4a' }} color={'black'} />
           <IconButton
             icon={<DeleteIcon />}
             onClick={() => handleDeleteProduct(product._id)}
