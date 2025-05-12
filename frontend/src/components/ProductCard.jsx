@@ -27,7 +27,6 @@ const ProductCard = ({ product }) => {
   const [updatedProduct, setUpdatedProduct] = useState(product);
 
   const textColor = useColorModeValue("gray.600", "gray.200");
-  const bg = useColorModeValue("white", "gray.800");
   const bgCard = useColorModeValue('gray.100', 'gray.700')
 
   const { deleteProduct, updateProduct } = useProductStore();
