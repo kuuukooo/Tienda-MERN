@@ -45,7 +45,7 @@ const ProductCard = ({ product }) => {
       });
     } else {
       toast({
-        title: "Success",
+        title: "Exito",
         description: message,
         status: "success",
         duration: 3000,
