@@ -1,4 +1,13 @@
-import { Container, SimpleGrid, Text, VStack, Heading } from '@chakra-ui/react'
+import {
+  Container,
+  SimpleGrid,
+  VStack,
+  Heading,
+  Icon,
+  Text,
+  Center,
+} from '@chakra-ui/react'
+import { HiColorSwatch } from 'react-icons/hi'
 import { useEffect } from 'react'
 import { useProductStore } from '../store/product.js'
 import ProductCard from '../components/ProductCard.jsx'
@@ -10,33 +19,34 @@ export const HomePage = () => {
     fetchProducts()
   }, [fetchProducts])
 
-  console.log(products)
   return (
-    <Container maxW={'container.xl'} py={12}>
+    <Container maxW="container.xl" py={12}>
       <VStack spacing={8}>
-        <Heading as={'h1'} size={'2xl'} textAlign={'center'} mb={8}>
+        <Heading as="h1" size="2xl" textAlign="center">
           Productos
         </Heading>
 
-        <SimpleGrid
-          columns={{
-            base: 1,
-            md: 2,
-            lg: 3,
-          }}
-          spacing={10}
-          w={"full"}
-        >
-          {products?.length > 0 ? (
-            products.map((product) =>
-              product ? <ProductCard key={product._id} product={product} /> : null
-            )
-          ) : (
-            <Text fontSize='xl' textAlign={"center"} fontWeight='bold' color='gray.500'>
-              No se encontró ningún producto. 😿
+        {products?.length > 0 ? (
+          <SimpleGrid
+            columns={{ base: 1, md: 2, lg: 3 }}
+            spacing={10}
+            w="full"
+          >
+            {products.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </SimpleGrid>
+        ) : (
+          <Center py={20} flexDir="column" color="gray.500">
+            <Icon as={HiColorSwatch} boxSize="3rem" mb={4} />
+            <Heading size="lg" mb={2}>
+              No se encontró ningún producto
+            </Heading>
+            <Text mb={4}>
+              Por favor, crea un producto.
             </Text>
-          )}
-        </SimpleGrid>
+          </Center>
+        )}
       </VStack>
     </Container>
   )

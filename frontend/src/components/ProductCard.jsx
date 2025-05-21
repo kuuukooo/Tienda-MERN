@@ -1,4 +1,5 @@
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { FaShoppingBag } from "react-icons/fa";
 import {
   Box,
   Button,
@@ -22,6 +23,7 @@ import {
 } from "@chakra-ui/react";
 import { useProductStore } from "../store/product";
 import { useState } from "react";
+import { useCartStore } from "../store/cart";
 
 const ProductCard = ({ product }) => {
   const [updatedProduct, setUpdatedProduct] = useState(product);
@@ -32,6 +34,9 @@ const ProductCard = ({ product }) => {
   const { deleteProduct, updateProduct } = useProductStore();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const addToCart = useCartStore((s) => s.addToCart);
+  const removeFromCart = useCartStore((s) => s.removeFromCart);
 
   const handleDeleteProduct = async (pid) => {
     const { success, message } = await deleteProduct(pid);
@@ -51,6 +56,7 @@ const ProductCard = ({ product }) => {
         duration: 3000,
         isClosable: true,
       });
+      removeFromCart(pid);
     }
   };
 
@@ -93,15 +99,31 @@ const ProductCard = ({ product }) => {
         </Heading>
 
         <Text fontWeight='bold' fontSize='xl' color={textColor} mb={4}>
-          ${product.price}
+          ₲{(product.price.toLocaleString("es-PY"))}
         </Text>
 
         <HStack spacing={2}>
-          <IconButton icon={<EditIcon />} onClick={onOpen} bgColor={'#70c055'} _hover={{ bg: '#5e9a4a' }} color={'black'} />
+          <IconButton
+            icon={<EditIcon />}
+            onClick={onOpen}
+            bgColor={'#8BC34A'}
+            _hover={{ bg: '#5e9a4a' }}
+            color={'black'}
+          />
+          <IconButton
+            icon={<FaShoppingBag />}
+            onClick={() => addToCart(product)}
+            aria-label="Añadir al carrito"
+            bgColor={'#4C6EF5'}
+            _hover={{ bg: '#2b6cb0' }}
+            color={'black'}
+          />
           <IconButton
             icon={<DeleteIcon />}
             onClick={() => handleDeleteProduct(product._id)}
-            colorScheme='red'
+            bgColor={'#E53E3E'}
+            _hover={{ bg: '#c53030' }}
+            color={'black'}
           />
         </HStack>
       </Box>
