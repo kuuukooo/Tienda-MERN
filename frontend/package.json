@@ -15,9 +15,10 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "dotenv": "^16.5.0",
-    "framer-motion": "^12.4.13",
     "react": "^19.0.0",
+    "react-confetti": "^6.4.0",
     "react-dom": "^19.0.0",
+    "react-use": "^17.6.0",
     "standard": "17.1.2"
   },
   "devDependencies": {
